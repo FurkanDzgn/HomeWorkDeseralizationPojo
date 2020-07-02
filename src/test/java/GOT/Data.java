@@ -6,7 +6,16 @@ public class Data {
 
     private Boolean male;
     private String name;
+    private String house;
     private List<String> books;
+
+    public String getHouse() {
+        return house;
+    }
+
+    public void setHouse(String house) {
+        this.house = house;
+    }
 
     public List<String> getBooks() {
         return books;

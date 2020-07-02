@@ -14,10 +14,7 @@ import org.junit.Test;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 public class GOTTest {
 
@@ -52,27 +49,29 @@ public class GOTTest {
         objectMapper.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_PROPERTIES,true);
         ResponseBodyGOT parsedObject=objectMapper.readValue(httpResponse.getEntity().getContent(),ResponseBodyGOT.class);
 
-        Map<String,Boolean> charName=new HashMap<>();
+        Map<String,Boolean> charNameMAle=new HashMap<>();
+        Map<String,Boolean> charNameFemale=new HashMap<>();
         int countMale=0;
         int countFemale=0;
-        int countUnknown=0;
+
+      //  Map<String,Map<Boolean, List<String>>>
 
         for(int i=0;i<parsedObject.getData().size();i++){
             if(parsedObject.getData().get(i).getMale()==true){
-                charName.put(parsedObject.getData().get(i).getName(),parsedObject.getData().get(i).getMale());
+                charNameMAle.put(parsedObject.getData().get(i).getName()+" "+parsedObject.getData().get(i).getHouse(),
+                        parsedObject.getData().get(i).getMale());
                 countMale++;
             }else if (parsedObject.getData().get(i).getMale()==false){
-                charName.put(parsedObject.getData().get(i).getName(),parsedObject.getData().get(i).getMale());
+                charNameFemale.put(parsedObject.getData().get(i).getName()+" "+parsedObject.getData().get(i).getHouse(),
+                        parsedObject.getData().get(i).getMale());
                 countFemale++;
-            }else {
-                charName.put(parsedObject.getData().get(i).getName(),parsedObject.getData().get(i).getMale());
-                countUnknown++;
             }
         }
 //        System.out.println(String.format("%s is %s portrayed %s,in %s",listCharPojo.get(0).getName(),listCharPojo.get(0).getStatus()
 //                ,listCharPojo.get(0).getPortrayed(), listCharPojo.get(0).getCategory()));
-        System.out.println(String.format("%s and %s and %s ","Male "+countMale,"Female "+countFemale,"Unknown "+countUnknown));
-        System.out.println(charName);
+        System.out.println(String.format("%s and %s and %s ","Male "+countMale,"Female "+countFemale,"Unknown "));
+        System.out.println(charNameMAle);
+        System.out.println(charNameFemale);
     }
 
 
@@ -126,7 +125,6 @@ public class GOTTest {
                     }else{
                         countNames.put(parsedObject.getData().get(i).getBooks().get(k),count1);
                     }
-
                 }
                 else if(parsedObject.getData().get(i).getBooks().get(k).equalsIgnoreCase(A_STORM_OF_SWORDS)){
                     books.put(parsedObject.getData().get(i).getName(),A_STORM_OF_SWORDS);
